@@ -1,4 +1,4 @@
-# boilerplate
+# Bin Transfer App
 
 A new Flutter project.
 
