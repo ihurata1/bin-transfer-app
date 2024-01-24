@@ -3,6 +3,7 @@
 import 'package:boilerplate/constants/app.dart';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/screens/home/home.dart';
+import 'package:boilerplate/screens/manager/manager.dart';
 import 'package:boilerplate/screens/user/bin_request_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,6 +45,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return BinRequestListScreen();
+    return HomeScreen();
   }
 }

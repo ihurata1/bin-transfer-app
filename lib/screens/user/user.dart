@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:boilerplate/components/app_bottom_nav_bar_item.dart';
 import 'package:boilerplate/components/app_container/app_container.dart';
 import 'package:boilerplate/helpers/device_info/device_info.dart';
+import 'package:boilerplate/screens/home/home.dart';
 import 'package:boilerplate/screens/user/bin_list.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +33,11 @@ class _UserScreenState extends State<UserScreen> {
   @override
   Widget build(BuildContext context) {
     return AppContainer(
+      bottomNavBarItemList: [
+        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+      ],
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: DeviceInfo.width(4)),
         child: Column(

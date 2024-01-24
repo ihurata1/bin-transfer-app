@@ -3,6 +3,7 @@
 import 'package:boilerplate/components/app_container/app_container.dart';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/helpers/device_info/device_info.dart';
+import 'package:boilerplate/screens/manager/manager_adress_list.dart';
 import 'package:boilerplate/screens/user/user.dart';
 import 'package:flutter/material.dart';
 
@@ -40,15 +41,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return AppContainer(
+      isAuthScreen: true,
+      bottomNavBarItemList: [],
       child: Container(
         margin: EdgeInsets.only(top: DeviceInfo.height(10)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(height: DeviceInfo.height(2)),
             inputField(_emailController, "Email", false),
-            SizedBox(height: DeviceInfo.height(8)),
+            SizedBox(height: DeviceInfo.height(2)),
             inputField(_passwordController, "Password", false),
-            SizedBox(height: DeviceInfo.height(8)),
+            SizedBox(height: DeviceInfo.height(2)),
             GestureDetector(
               onTap: () => Navigator.push(
                 context,
@@ -59,7 +63,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: DeviceInfo.width(50),
                 decoration: BoxDecoration(color: AppColor.blue),
                 child: Center(
-                  child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  child: Text("User Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ),
+            SizedBox(height: DeviceInfo.height(4)),
+            inputField(_emailController, "Email", false),
+            SizedBox(height: DeviceInfo.height(2)),
+            inputField(_passwordController, "Password", false),
+            SizedBox(height: DeviceInfo.height(2)),
+            GestureDetector(
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ManagerAdressListScreen()),
+              ),
+              child: Container(
+                height: DeviceInfo.height(6),
+                width: DeviceInfo.width(50),
+                decoration: BoxDecoration(color: AppColor.blue),
+                child: Center(
+                  child: Text("Manager Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                 ),
               ),
             )

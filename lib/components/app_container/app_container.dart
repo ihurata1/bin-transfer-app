@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/helpers/device_info/device_info.dart';
 import 'package:boilerplate/screens/home/home.dart';
@@ -6,12 +8,16 @@ import 'package:boilerplate/screens/user/bin_request_list.dart';
 import 'package:flutter/material.dart';
 
 class AppContainer extends StatelessWidget {
-  const AppContainer({
+  AppContainer({
     super.key,
     required this.child,
+    this.isAuthScreen = false,
+    required this.bottomNavBarItemList,
   });
 
   final Widget child;
+  bool isAuthScreen;
+  final List<Widget> bottomNavBarItemList;
 
   bottomNavBarItem(String value, VoidCallback onTap) {
     return GestureDetector(
@@ -48,18 +54,18 @@ class AppContainer extends StatelessWidget {
           child: child,
         ),
       ),
-      bottomNavigationBar: Container(
-        color: Colors.white,
-        height: DeviceInfo.height(7),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            bottomNavBarItem("Home", () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
-            bottomNavBarItem("My Requests", () => Navigator.push(context, MaterialPageRoute(builder: (context) => BinRequestListScreen()))),
-            bottomNavBarItem("Manager", () => Navigator.push(context, MaterialPageRoute(builder: (context) => ManagerAdressListScreen()))),
-          ],
-        ),
-      ),
+      bottomNavigationBar: isAuthScreen ? null : bottomNawBar(context),
+    );
+  }
+
+  Widget bottomNawBar(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      height: DeviceInfo.height(7),
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: bottomNavBarItemList),
     );
   }
 }
+
+
+              //  bottomNavBarItem("Addresses", () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
