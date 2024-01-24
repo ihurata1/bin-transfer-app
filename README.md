@@ -1,6 +1,6 @@
-# boilerplate
+# Bin Transfer App
 
-A new Flutter project.
+To run this project open virtual device and open any dart file then run. 
 
 ## Getting Started
 
