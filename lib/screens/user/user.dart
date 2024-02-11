@@ -19,15 +19,15 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   String companyNameValue = "";
 
-  Widget addressCard(String address) {
+  Widget addressCard(String location) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BinListScreen())),
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BinListScreen(location: location))),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: DeviceInfo.height(1)),
         width: double.infinity,
         height: DeviceInfo.height(8),
         color: Color(0xffd9d9d9),
-        child: Center(child: Text(address)),
+        child: Center(child: Text(location)),
       ),
     );
   }
@@ -36,9 +36,9 @@ class _UserScreenState extends State<UserScreen> {
   Widget build(BuildContext context) {
     return AppContainer(
       bottomNavBarItemList: [
-        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
-        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
-        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Home", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Locations", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Bins", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
       ],
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: DeviceInfo.width(4)),
@@ -94,7 +94,13 @@ class _UserScreenState extends State<UserScreen> {
               future: LocationListService().getLocationList(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: List.generate(snapshot.data!.length, (index) => addressCard(snapshot.data![index]!.location!)));
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      snapshot.data!.length,
+                      (index) => addressCard(snapshot.data![index]!.location!),
+                    ),
+                  );
                 } else {
                   return CircularProgressIndicator();
                 }

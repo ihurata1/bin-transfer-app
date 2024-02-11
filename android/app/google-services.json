@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "485924313728",
+    "project_id": "bin-transfer-app",
+    "storage_bucket": "bin-transfer-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485924313728:android:c995be461cce53e2c52465",
+        "android_client_info": {
+          "package_name": "com.example.bintransferapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDGd6hbtxJJ0Py2BjoHjGQOdNN6ii9Xfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

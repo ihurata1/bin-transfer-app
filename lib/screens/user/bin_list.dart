@@ -4,13 +4,16 @@ import 'package:boilerplate/components/app_bottom_nav_bar_item.dart';
 import 'package:boilerplate/constants/app.dart';
 import 'package:boilerplate/constants/colors.dart';
 import 'package:boilerplate/helpers/device_info/device_info.dart';
+import 'package:boilerplate/models/bin.dart';
 import 'package:boilerplate/screens/home/home.dart';
+import 'package:boilerplate/services/bin_list.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/app_container/app_container.dart';
 
 class BinListScreen extends StatefulWidget {
-  const BinListScreen({super.key});
+  String? location;
+  BinListScreen({super.key, this.location = ""});
 
   @override
   State<BinListScreen> createState() => _BinListScreenState();
@@ -111,7 +114,7 @@ class _BinListScreenState extends State<BinListScreen> {
     );
   }
 
-  Widget binCard(String binNumber, String distance) {
+  Widget binCard(BinModel bin) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.symmetric(vertical: DeviceInfo.height(1)),
@@ -122,8 +125,8 @@ class _BinListScreenState extends State<BinListScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(padding: EdgeInsets.only(left: DeviceInfo.width(2)), child: Text("Bin number: $binNumber")),
-            Padding(padding: EdgeInsets.only(left: DeviceInfo.width(2)), child: Text("Size: $distance yard")),
+            Padding(padding: EdgeInsets.only(left: DeviceInfo.width(2)), child: Text("Bin number: ${bin.number}")),
+            Padding(padding: EdgeInsets.only(left: DeviceInfo.width(2)), child: Text("Size: ${bin.size} yard")),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: DeviceInfo.width(2)),
               child: Row(
@@ -145,9 +148,9 @@ class _BinListScreenState extends State<BinListScreen> {
   Widget build(BuildContext context) {
     return AppContainer(
       bottomNavBarItemList: [
-        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
-        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
-        AppBottomNavBarItem(value: "Addresses", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Home", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Location", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
+        AppBottomNavBarItem(value: "Bins", onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()))),
       ],
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: DeviceInfo.width(4)),
@@ -177,25 +180,31 @@ class _BinListScreenState extends State<BinListScreen> {
                 ],
               ),
             ),
-            SizedBox(height: DeviceInfo.height(4)),
+            Text(
+              'Bin List',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: DeviceInfo.height(2)),
             Expanded(
               child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Bin List',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: DeviceInfo.height(2)),
-                    binCard('30-001', "30"),
-                    binCard('30-001', "30"),
-                    binCard('30-001', "30"),
-                  ],
-                ),
+                child: FutureBuilder<List<BinModel?>>(
+                    future: BinListService().getBinList(widget.location),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                            snapshot.data!.length,
+                            (index) => binCard(snapshot.data![index]!),
+                          ),
+                        );
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }),
               ),
             ),
           ],
