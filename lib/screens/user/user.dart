@@ -3,8 +3,10 @@
 import 'package:boilerplate/components/app_bottom_nav_bar_item.dart';
 import 'package:boilerplate/components/app_container/app_container.dart';
 import 'package:boilerplate/helpers/device_info/device_info.dart';
+import 'package:boilerplate/models/location.dart';
 import 'package:boilerplate/screens/home/home.dart';
 import 'package:boilerplate/screens/user/bin_list.dart';
+import 'package:boilerplate/services/location_list.dart';
 import 'package:flutter/material.dart';
 
 class UserScreen extends StatefulWidget {
@@ -25,7 +27,7 @@ class _UserScreenState extends State<UserScreen> {
         width: double.infinity,
         height: DeviceInfo.height(8),
         color: Color(0xffd9d9d9),
-        child: Center(child: Text(address)), // Text'i ortalar
+        child: Center(child: Text(address)),
       ),
     );
   }
@@ -80,23 +82,23 @@ class _UserScreenState extends State<UserScreen> {
                 ],
               ),
             ),
-            SizedBox(height: DeviceInfo.height(4)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Address List',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: DeviceInfo.height(2)),
-                addressCard('30 Bedford'),
-                addressCard('10 Bedford'),
-                addressCard('3480 Dutch Village Rd'),
-                addressCard('16 Robbie St.'),
-              ],
+            Text(
+              'Address List',
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: DeviceInfo.height(2)),
+            FutureBuilder<List<LocationModel?>>(
+              future: LocationListService().getLocationList(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: List.generate(snapshot.data!.length, (index) => addressCard(snapshot.data![index]!.location!)));
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
             ),
           ],
         ),
